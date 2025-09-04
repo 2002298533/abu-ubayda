@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مسارات الدراسة في الأردن</title>
+  <style>
+    :root {
+      --jet: #353535;
+      --caribbean-current: #3c6e71;
+      --white: #ffffff;
+      --platinum: #d9d9d9;
+      --indigo-dye: #284b63;
+    }
+
+    body {
+      font-family: "Tajawal", sans-serif;
+      background: linear-gradient(135deg, var(--platinum), var(--white));
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 900px;
+      margin: 40px auto;
+      background: var(--white);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--indigo-dye);
+      font-size: 28px;
+      animation: bounceIn 1.2s ease;
+    }
+
+    .step {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .option-btn {
+      background: var(--caribbean-current);
+      color: var(--white);
+      border: none;
+      padding: 16px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .option-btn::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.4s ease;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-6px) scale(1.05);
+      background: var(--indigo-dye);
+    }
+
+    .option-btn:hover::after {
+      left: 0;
+    }
+
+    .video-container {
+      margin-top: 30px;
+      display: none;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 22px;
+      }
+      .option-btn {
+        font-size: 16px;
+        padding: 12px 18px;
+      }
+      iframe {
+        height: 250px;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎓  مسارات الدراسة في الأردن 🎓</h1>
+
+    <!-- Step 1 -->
+    <div class="step" id="step1">
+      <p style="color: var(--jet); font-size:18px;">اختر المسار:</p>
+      <div class="options">
+        <button class="option-btn" onclick="showStep(2,'الأكاديمي')">الأكاديمي</button>
+        
+        <button class="option-btn" onclick="showStep(2,'المهني')">مهني btec</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step" id="step2" style="display:none;">
+      <p id="selected-track" style="color: var(--indigo-dye); font-weight:bold;"></p>
+      <div class="options" id="subOptions"></div>
+    </div>
+
+    <!-- Video -->
+    <div class="video-container" id="videoContainer">
+      <iframe id="videoFrame" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    const subOptionsData = {
+      "الأكاديمي": [
+        {name: "صحي", video: "ray.mp4"},
+        {name: "هندسي", video: "ray.mp4"},
+        {name: "تكنولوجيا معلومات", video: "ray.mp4"},
+        {name: "اللغات و العلوم الاجتماعية", video: "ray.mp4"},
+        {name: "القانون والعلوم الشرعية", video: "ray.mp4"},
+        {name: "الأعمال", video: "ray.mp4"}
+      ],
+      
+      
+      "المهني": [
+        {name: "الاعمال", video: "ray.mp4"},
+        {name: "تكنولوجيا معلومات", video: "ray.mp4"},
+        {name: "الهندسة", video: "ray.mp4"},
+        {name: "الفندقة والضيافة", video: "ray.mp4"},
+        {name: "الزراعة", video: "ray.mp4"},
+        {name: "الفن والتصميم", video: "ray.mp4"},
+        {name: "السياحة والسفر", video: "ray.mp4"},
+        {name: "البناء و الإنشاءات", video: "ray.mp4"},
+
+            ]
+    };
+
+    function showStep(step, track) {
+      if (step === 2) {
+        document.getElementById("step2").style.display = "block";
+        document.getElementById("selected-track").innerText = "✨ اختر التخصص من المسار " + track + ":";
+        
+        const subOptionsDiv = document.getElementById("subOptions");
+        subOptionsDiv.innerHTML = "";
+        
+        subOptionsData[track].forEach((opt, index) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.innerText = opt.name;
+          btn.style.animation = `fadeInUp 0.6s ease ${(index+1)*0.2}s both`;
+          btn.onclick = () => showVideo(opt.video);
+          subOptionsDiv.appendChild(btn);
+        });
+      }
+    }
+
+    function showVideo(videoUrl) {
+      const videoContainer = document.getElementById("videoContainer");
+      const videoFrame = document.getElementById("videoFrame");
+      videoContainer.style.display = "block";
+      videoFrame.src = videoUrl;
+      videoContainer.scrollIntoView({behavior: "smooth"});
+    }
+  </script>
+</body>
+</html>
